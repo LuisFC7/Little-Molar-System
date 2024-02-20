@@ -1,6 +1,0 @@
-@LittleMolarSystem_HostAddress = http://localhost:5271
-
-GET {{LittleMolarSystem_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
