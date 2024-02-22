@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using LittleMolarApi.Services;
+using LittleMolarApi.Interfaces;
+using LittleMolarApi.Models;
 
 namespace LittleMolarApi.Controllers;
 
@@ -7,9 +9,9 @@ namespace LittleMolarApi.Controllers;
 [Route("api/[controller]")]
 public class DentistController : ControllerBase{
 
-    private readonly  DentistService _dentistService;
+    private readonly IDentist _dentistService;
 
-    public DentistController(DentistService dentistService){
+    public DentistController(IDentist dentistService){
         _dentistService = dentistService;
     }
 
@@ -19,4 +21,11 @@ public class DentistController : ControllerBase{
         return Ok(dentistas);
     }
 
+    [HttpPost]
+    public IActionResult addDentist([FromBody] Dentist newDentist){
+        _dentistService.addDentist(newDentist);
+        return Ok("Dentist has been added succesfully");
+    }
+
+    
 }

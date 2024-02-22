@@ -7,6 +7,8 @@ public class DentistService : IDentist{
 
     // private readonly ApplicationDbContext _context;
     private List<Dentist> _dentist;
+    private Dentist dentist;
+
 
     // public DentistService(ApplicationDbContext context){
     //     _context = context;
@@ -32,4 +34,8 @@ public class DentistService : IDentist{
         return _dentist;
     }
 
+    public void addDentist(Dentist newDentist){
+        _dentist.Add(newDentist);
+        // throw new NotImplementedException();
+    }
 }
