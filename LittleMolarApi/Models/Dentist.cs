@@ -27,6 +27,7 @@ public class Dentist{
         this.dentistName = dentistName;
         this.dentistLastName = dentistLastName;
         this.dentistUser = dentistUser;
+        this.dentistPassword = dentistPassword;
         this.dentistEmail = dentistEmail;
         this.dentistAge = dentistAge;
         this.dentistId = dentistId;

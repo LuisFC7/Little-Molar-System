@@ -16,15 +16,40 @@ public class DentistController : ControllerBase{
     }
 
     [HttpGet]
+    [Route("getAlLDentist")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(500)]
     public IActionResult getAllDentist(){
-        var dentistas = _dentistService.getAllDentist();
-        return Ok(dentistas);
+
+        try{
+
+            var dentistas = _dentistService.getAllDentist();
+            return Ok(dentistas);
+
+        }catch (Exception ex){
+            return StatusCode(500, "An error has been occurred: " + ex);
+        }
+
     }
 
     [HttpPost]
+    [Route("addDentist")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(500)]
     public IActionResult addDentist([FromBody] Dentist newDentist){
-        _dentistService.addDentist(newDentist);
-        return Ok("Dentist has been added succesfully");
+
+        try{
+
+            if(newDentist == null){
+                return BadRequest("The messague cannot be empty or null");
+            }
+
+            _dentistService.addDentist(newDentist);
+            return Ok("Dentist has been added succesfully " + newDentist);
+
+        }catch (Exception ex){
+            return StatusCode(500, "An unexpected error has been ocurred: " + ex);
+        }
     }
 
     
