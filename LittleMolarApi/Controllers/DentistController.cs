@@ -35,13 +35,14 @@ public class DentistController : ControllerBase{
     [HttpPost]
     [Route("addDentist")]
     [ProducesResponseType(200)]
+    [ProducesResponseType(400)]
     [ProducesResponseType(500)]
     public IActionResult addDentist([FromBody] Dentist newDentist){
 
         try{
 
             if(newDentist == null){
-                return BadRequest("The messague cannot be empty or null");
+                return  StatusCode(400, "The messague cannot be empty or null");
             }
 
             _dentistService.addDentist(newDentist);
@@ -51,6 +52,23 @@ public class DentistController : ControllerBase{
             return StatusCode(500, "An unexpected error has been ocurred: " + ex);
         }
     }
+
+
+    [HttpPost]
+    [Route("updateDentist")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(400)]
+    [ProducesResponseType(500)]
+    public IActionResult updateDentist([FromBody] Dentist newDentist){
+
+        if(newDentist != null){
+            _dentistService.updateDentist(newDentist);
+            return Ok("Data has been update succesfully");
+        }else{
+            throw new InvalidOperationException($"Is missing some data in updating dentist.");
+        }
+    }
+
 
     
 }

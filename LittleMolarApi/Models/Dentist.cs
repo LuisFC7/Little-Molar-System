@@ -1,6 +1,9 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace LittleMolarApi.Models;
 
 public class Dentist{
+
 
     public int id { get; set; }
     public string dentistName { get; set; }

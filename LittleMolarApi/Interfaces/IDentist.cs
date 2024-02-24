@@ -8,6 +8,6 @@ public interface IDentist{
     void addDentist(Dentist newDentist);
     List<Dentist> getAllDentist();
     // Dentist getDentistById(int dentistId);
-    // Dentist updateDentist(int dentistId);
+    void updateDentist(Dentist dentist);
     // void deleteDentist(int dentistId);
 }

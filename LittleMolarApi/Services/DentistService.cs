@@ -38,4 +38,21 @@ public class DentistService : IDentist{
         _dentist.Add(newDentist);
         // throw new NotImplementedException();
     }
+
+    public void updateDentist(Dentist dentist){
+
+        var identify = _dentist.FirstOrDefault(i => i.id == dentist.id);
+        if(identify != null){
+            identify.dentistName = dentist.dentistName;
+            identify.dentistLastName = dentist.dentistLastName;
+            identify.dentistUser = dentist.dentistUser;
+            identify.dentistPassword = dentist.dentistPassword;
+            identify.dentistEmail = dentist.dentistEmail;
+            identify.dentistAge = dentist.dentistAge;
+            identify.dentistId = dentist.dentistId;
+            identify.dentistPhone = dentist.dentistPhone;
+        }else{
+            throw new InvalidOperationException($"Dentist not found.");
+        }
+    }
 }
