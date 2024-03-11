@@ -5,14 +5,14 @@ namespace LittleMolarApi.Services;
 
 public class DentistService : IDentist{
 
-    // private readonly ApplicationDbContext _context;
+    private readonly ApplicationDbContext _context;
     private List<Dentist> _dentist;
     private Dentist dentist;
 
 
-    // public DentistService(ApplicationDbContext context){
-    //     _context = context;
-    // }
+    public DentistService(ApplicationDbContext context){
+        _context = context;
+    }
 
     public DentistService(){
         _dentist = new List<Dentist>{
@@ -31,11 +31,14 @@ public class DentistService : IDentist{
     }
 
     public List<Dentist> getAllDentist(){
-        return _dentist;
+        return _context.Dentists.ToList();
+        // return _dentist;
     }
 
     public void addDentist(Dentist newDentist){
-        _dentist.Add(newDentist);
+        _context.Dentists.Add(newDentist);
+        _context.SaveChanges();
+        // _dentist.Add(newDentist);
         // throw new NotImplementedException();
     }
 
@@ -55,4 +58,14 @@ public class DentistService : IDentist{
             throw new InvalidOperationException($"Dentist not found.");
         }
     }
+
+   public void deleteDentist(int dentistId){
+
+    var dentistDelete = _dentist.FirstOrDefault(d => d.id == dentistId);
+    
+    if(dentistDelete != null){
+        _dentist.Remove(dentistDelete);
+    }
+
+   }
 }

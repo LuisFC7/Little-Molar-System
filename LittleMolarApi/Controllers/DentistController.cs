@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using LittleMolarApi.Services;
 using LittleMolarApi.Interfaces;
 using LittleMolarApi.Models;
 
@@ -67,6 +66,13 @@ public class DentistController : ControllerBase{
         }else{
             throw new InvalidOperationException($"Is missing some data in updating dentist.");
         }
+    }
+
+    [HttpDelete]
+    [Route("deleteDentist")]
+    public IActionResult deleteDentist([FromQuery] int dentistId){
+        _dentistService.deleteDentist(dentistId);
+        return Ok("Dentist has been deleted successfully");
     }
 
 

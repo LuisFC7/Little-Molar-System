@@ -6,8 +6,12 @@ public interface IDentist{
 
     //Methods for IDentisi
     void addDentist(Dentist newDentist);
+
+    // Read all the dentist list
     List<Dentist> getAllDentist();
-    // Dentist getDentistById(int dentistId);
+
+    // Update data Dentist using idk
     void updateDentist(Dentist dentist);
-    // void deleteDentist(int dentistId);
+
+    void deleteDentist(int dentistId);
 }
