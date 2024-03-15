@@ -31,12 +31,17 @@ public class DentistService : IDentist{
     }
 
     public List<Dentist> getAllDentist(){
-        return _context.Dentists.ToList();
-        // return _dentist;
+        try{
+           return _context.Dentist.ToList();
+        }
+        catch (Exception ex){
+            throw ex;
+        }
+
     }
 
     public void addDentist(Dentist newDentist){
-        _context.Dentists.Add(newDentist);
+        _context.Dentist.Add(newDentist);
         _context.SaveChanges();
         // _dentist.Add(newDentist);
         // throw new NotImplementedException();

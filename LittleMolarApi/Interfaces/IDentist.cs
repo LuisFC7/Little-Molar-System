@@ -14,4 +14,5 @@ public interface IDentist{
     void updateDentist(Dentist dentist);
 
     void deleteDentist(int dentistId);
+
 }

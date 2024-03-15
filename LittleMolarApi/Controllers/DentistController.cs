@@ -9,7 +9,6 @@ namespace LittleMolarApi.Controllers;
 public class DentistController : ControllerBase{
 
     private readonly IDentist _dentistService;
-
     public DentistController(IDentist dentistService){
         _dentistService = dentistService;
     }
@@ -21,7 +20,6 @@ public class DentistController : ControllerBase{
     public IActionResult getAllDentist(){
 
         try{
-
             var dentistas = _dentistService.getAllDentist();
             return Ok(dentistas);
 
