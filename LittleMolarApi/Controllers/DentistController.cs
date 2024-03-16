@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using LittleMolarApi.Interfaces;
 using LittleMolarApi.Models;
+using LittleMolarApi.DTO;
 
 namespace LittleMolarApi.Controllers;
 
@@ -34,15 +35,18 @@ public class DentistController : ControllerBase{
     [ProducesResponseType(200)]
     [ProducesResponseType(400)]
     [ProducesResponseType(500)]
-    public IActionResult addDentist([FromBody] Dentist newDentist){
+    public async Task<IActionResult> addDentist([FromBody] DentistDto newDentist){
 
         try{
-
             if(newDentist == null){
                 return  StatusCode(400, "The messague cannot be empty or null");
             }
 
-            _dentistService.addDentist(newDentist);
+            if(_dentistService.usernameDentistExist(newDentist.dentistUser) || _dentistService .emailDentistExist(newDentist.dentistEmail)){
+                return BadRequest("El nombre de usuario o el correo electrónico ya están en uso.");
+            }
+
+            await _dentistService.addDentist(newDentist);
             return Ok("Dentist has been added succesfully " + newDentist);
 
         }catch (Exception ex){
@@ -51,27 +55,27 @@ public class DentistController : ControllerBase{
     }
 
 
-    [HttpPost]
-    [Route("updateDentist")]
-    [ProducesResponseType(200)]
-    [ProducesResponseType(400)]
-    [ProducesResponseType(500)]
-    public IActionResult updateDentist([FromBody] Dentist newDentist){
+    // [HttpPost]
+    // [Route("updateDentist")]
+    // [ProducesResponseType(200)]
+    // [ProducesResponseType(400)]
+    // [ProducesResponseType(500)]
+    // public IActionResult updateDentist([FromBody] Dentist newDentist){
 
-        if(newDentist != null){
-            _dentistService.updateDentist(newDentist);
-            return Ok("Data has been update succesfully");
-        }else{
-            throw new InvalidOperationException($"Is missing some data in updating dentist.");
-        }
-    }
+    //     if(newDentist != null){
+    //         _dentistService.updateDentist(newDentist);
+    //         return Ok("Data has been update succesfully");
+    //     }else{
+    //         throw new InvalidOperationException($"Is missing some data in updating dentist.");
+    //     }
+    // }
 
-    [HttpDelete]
-    [Route("deleteDentist")]
-    public IActionResult deleteDentist([FromQuery] int dentistId){
-        _dentistService.deleteDentist(dentistId);
-        return Ok("Dentist has been deleted successfully");
-    }
+    // [HttpDelete]
+    // [Route("deleteDentist")]
+    // public IActionResult deleteDentist([FromQuery] int dentistId){
+    //     _dentistService.deleteDentist(dentistId);
+    //     return Ok("Dentist has been deleted successfully");
+    // }
 
 
     

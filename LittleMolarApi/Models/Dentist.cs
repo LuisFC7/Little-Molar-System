@@ -1,10 +1,13 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace LittleMolarApi.Models;
 
 public class Dentist{
 
     [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int id { get; set; }
     [Required(ErrorMessage = "El nombre del dentista es obligatorio.")]
     public string dentistName { get; set; }
@@ -28,7 +31,7 @@ public class Dentist{
     public string dentistPhone { get; set; }
 
     public Dentist (
-        int id,
+        
         string dentistName,
         string dentistLastName,
         string dentistUser,
@@ -38,7 +41,7 @@ public class Dentist{
         int dentistId,
         string dentistPhone)
     {
-        this.id = id;
+     
         this.dentistName = dentistName;
         this.dentistLastName = dentistLastName;
         this.dentistUser = dentistUser;
