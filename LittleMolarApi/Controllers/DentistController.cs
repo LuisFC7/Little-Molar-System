@@ -18,10 +18,10 @@ public class DentistController : ControllerBase{
     [Route("getAlLDentist")]
     [ProducesResponseType(200)]
     [ProducesResponseType(500)]
-    public IActionResult getAllDentist(){
+    public async Task<IActionResult> getAllDentist(){
 
         try{
-            var dentistas = _dentistService.getAllDentist();
+            var dentistas = await _dentistService.getAllDentist();
             return Ok(dentistas);
 
         }catch (Exception ex){
@@ -54,21 +54,29 @@ public class DentistController : ControllerBase{
         }
     }
 
+    [HttpPost]
+    [Route("updateDentist")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(400)]
+    [ProducesResponseType(500)]
+    public async Task<IActionResult> updateDentist([FromBody] DentistDto updateDentist, int id){
+        try{
+            if(updateDentist == null)
+                return  StatusCode(400, "The messague cannot be empty or null");
 
-    // [HttpPost]
-    // [Route("updateDentist")]
-    // [ProducesResponseType(200)]
-    // [ProducesResponseType(400)]
-    // [ProducesResponseType(500)]
-    // public IActionResult updateDentist([FromBody] Dentist newDentist){
+            // if(_dentistService.usernameDentistExist(updateDentist.dentistUser) || _dentistService .emailDentistExist(updateDentist.dentistEmail))
+            //         return BadRequest("El nombre de usuario o el correo electrónico ya están en uso.");
+            
+            await _dentistService.updateDentist(updateDentist, id);
+            return Ok("Data has been update succesfully");
 
-    //     if(newDentist != null){
-    //         _dentistService.updateDentist(newDentist);
-    //         return Ok("Data has been update succesfully");
-    //     }else{
-    //         throw new InvalidOperationException($"Is missing some data in updating dentist.");
-    //     }
-    // }
+        }catch (Exception ex){
+            return StatusCode(500, "An unexpected error has been ocurred: " + ex);
+        }
+
+    }
+
+    
 
     // [HttpDelete]
     // [Route("deleteDentist")]

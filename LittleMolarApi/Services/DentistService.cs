@@ -1,6 +1,8 @@
 using LittleMolarApi.DTO;
 using LittleMolarApi.Interfaces;
 using LittleMolarApi.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LittleMolarApi.Services;
 
@@ -12,9 +14,9 @@ public class DentistService : IDentist{
         _context = context;
     }
 
-    public List<Dentist> getAllDentist(){
+    public async Task<List<Dentist>> getAllDentist(){
         try{
-           return _context.Dentist.ToList();
+           return await _context.Dentist.ToListAsync();
         }
         catch (Exception ex){
             throw ex;
@@ -53,6 +55,43 @@ public class DentistService : IDentist{
         await _context.SaveChangesAsync();
     }
 
+    public async Task updateDentist(DentistDto updatedDentistDto, int id){
+
+        if(updatedDentistDto == null)
+            throw new NotImplementedException();
+
+        var dentist = await _context.Dentist.FindAsync(id);
+        List<String> dataValidation = new List<String>();
+
+        dataValidation.Append(dentist.dentistUser);
+        dataValidation.Append(dentist.dentistEmail);
+
+        var isUnique = await _context.Dentist
+            .Where(d=> ( d.dentistEmail == updatedDentistDto.dentistEmail || d.dentistUser == updatedDentistDto.dentistUser) && d.id !=id )
+            .AnyAsync();
+        
+        Console.WriteLine(isUnique);
+
+        if(isUnique){
+            dentist.dentistName = updatedDentistDto.dentistName;
+            dentist.dentistLastName = updatedDentistDto.dentistLastName;
+            dentist.dentistUser = updatedDentistDto.dentistUser;
+            dentist.dentistPassword = updatedDentistDto.dentistPassword;
+            dentist.dentistEmail = updatedDentistDto.dentistEmail;
+            dentist.dentistAge = updatedDentistDto.dentistAge;
+            dentist.dentistId = updatedDentistDto.dentistId;
+            dentist.dentistPhone = updatedDentistDto.dentistPhone;
+
+            await _context.SaveChangesAsync();
+        }else{
+            throw new InvalidOperationException("El correo electronico actualizado ya se encuentra registrado.");
+
+        }
+
+
+        
+    }
+
 
     //Methods for knowing if the user or email have been registered
     public bool usernameDentistExist(string username){
@@ -62,6 +101,11 @@ public class DentistService : IDentist{
     public bool emailDentistExist(string email){
         return _context.Dentist.Any(u => u.dentistEmail == email);
     }
+
+
+
+
+
 
     // public void updateDentist(Dentist dentist){
 
@@ -80,13 +124,13 @@ public class DentistService : IDentist{
     //     }
     // }
 
-//    public void deleteDentist(int dentistId){
+    //    public void deleteDentist(int dentistId){
 
-//     var dentistDelete = _dentist.FirstOrDefault(d => d.id == dentistId);
-    
-//     if(dentistDelete != null){
-//         _dentist.Remove(dentistDelete);
-//     }
+    //     var dentistDelete = _dentist.FirstOrDefault(d => d.id == dentistId);
 
-//    }
+    //     if(dentistDelete != null){
+    //         _dentist.Remove(dentistDelete);
+    //     }
+
+    //    }
 }
