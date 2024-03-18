@@ -55,24 +55,21 @@ public class DentistService : IDentist{
         await _context.SaveChangesAsync();
     }
 
-    public async Task updateDentist(DentistDto updatedDentistDto, int id){
+    public async Task updateDentist(DentistUpDto updatedDentistDto){
 
         if(updatedDentistDto == null)
             throw new NotImplementedException();
 
-        var dentist = await _context.Dentist.FindAsync(id);
-        List<String> dataValidation = new List<String>();
+        var dentist = await _context.Dentist.FindAsync(updatedDentistDto.id);
 
-        dataValidation.Append(dentist.dentistUser);
-        dataValidation.Append(dentist.dentistEmail);
+        if(dentist == null)
+            throw new NotImplementedException();
 
         var isUnique = await _context.Dentist
-            .Where(d=> ( d.dentistEmail == updatedDentistDto.dentistEmail || d.dentistUser == updatedDentistDto.dentistUser) && d.id !=id )
+            .Where(d=> ( d.dentistEmail == updatedDentistDto.dentistEmail || d.dentistUser == updatedDentistDto.dentistUser) && d.id !=updatedDentistDto.id )
             .AnyAsync();
-        
-        Console.WriteLine(isUnique);
 
-        if(isUnique){
+        if(!isUnique){
             dentist.dentistName = updatedDentistDto.dentistName;
             dentist.dentistLastName = updatedDentistDto.dentistLastName;
             dentist.dentistUser = updatedDentistDto.dentistUser;
@@ -83,13 +80,25 @@ public class DentistService : IDentist{
             dentist.dentistPhone = updatedDentistDto.dentistPhone;
 
             await _context.SaveChangesAsync();
-        }else{
-            throw new InvalidOperationException("El correo electronico actualizado ya se encuentra registrado.");
-
-        }
-
-
+        }else
+            throw new InvalidOperationException("El correo electronico o usuario actualizado ya se encuentra registrado.");
         
+    }
+    public async Task createPatient(PatientDTO patient){
+        if(patient==null)
+            throw new NotImplementedException();
+
+        var newPatient = new Patient(
+            patient.patientName,
+            patient.patientLastName,
+            patient.patientAge,
+            patient.patientPhone,
+            patient.dentistId
+        );
+        
+
+        _context.Patient.Add(newPatient);
+        await _context.SaveChangesAsync();
     }
 
 
@@ -101,6 +110,7 @@ public class DentistService : IDentist{
     public bool emailDentistExist(string email){
         return _context.Dentist.Any(u => u.dentistEmail == email);
     }
+
 
 
 

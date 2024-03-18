@@ -8,7 +8,9 @@ public interface IDentist{
     //Methods for IDentisi
     Task addDentist(DentistDto newDentist);
     // void addDentist(DentistDto newDentist);
-    Task updateDentist(DentistDto dentist, int id);
+    Task updateDentist(DentistUpDto dentist);
+
+    Task createPatient(PatientDTO patient);
 
     // Read all the dentist list
     Task<List<Dentist>> getAllDentist();

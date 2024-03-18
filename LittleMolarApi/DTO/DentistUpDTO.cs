@@ -1,13 +1,11 @@
+
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+namespace LittleMolarApi.DTO;
 
-namespace LittleMolarApi.Models;
+public class DentistUpDto{
 
-public class Dentist{
-
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int id { get; set; }
+   
     [Required(ErrorMessage = "El nombre del dentista es obligatorio.")]
     public string dentistName { get; set; }
     [Required(ErrorMessage = "El apellido del dentista es obligatorio.")]
@@ -28,28 +26,4 @@ public class Dentist{
     [Required(ErrorMessage ="La cedula es obligatoria")]
     public int dentistId { get; set; }
     public string dentistPhone { get; set; }
-
-    public Dentist (
-        
-        string dentistName,
-        string dentistLastName,
-        string dentistUser,
-        string dentistPassword,
-        string dentistEmail,
-        int dentistAge,
-        int dentistId,
-        string dentistPhone)
-    {
-     
-        this.dentistName = dentistName;
-        this.dentistLastName = dentistLastName;
-        this.dentistUser = dentistUser;
-        this.dentistPassword = dentistPassword;
-        this.dentistEmail = dentistEmail;
-        this.dentistAge = dentistAge;
-        this.dentistId = dentistId;
-        this.dentistPhone = dentistPhone;
-    }
-
-
 }
