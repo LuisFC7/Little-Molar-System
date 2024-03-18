@@ -13,10 +13,9 @@ public interface IDentist{
     Task createPatient(PatientDTO patient);
 
     // Read all the dentist list
-    Task<List<Dentist>> getAllDentist();
+    Task<List<Patient>> getAllPatients();
 
-    bool usernameDentistExist(string username);
-    bool emailDentistExist(string email);
+    bool validateExistence(string table, string field, string username);
 
 
     // Update data Dentist using idk

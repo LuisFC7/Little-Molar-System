@@ -1,5 +1,6 @@
 using LittleMolarApi.Interfaces;
 using LittleMolarApi.Services;
+using LittleMolarApi.Utilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -14,7 +15,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseMySQL(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
+builder.Services.AddScoped<ApplicationDbContext>();
 builder.Services.AddScoped<IDentist, DentistService>();
+builder.Services.AddScoped<UtilitiesServices>();
 
 // Add services to the container.
 

@@ -14,22 +14,6 @@ public class DentistController : ControllerBase{
         _dentistService = dentistService;
     }
 
-    [HttpGet]
-    [Route("getAlLDentist")]
-    [ProducesResponseType(200)]
-    [ProducesResponseType(500)]
-    public async Task<IActionResult> getAllDentist(){
-
-        try{
-            var dentistas = await _dentistService.getAllDentist();
-            return Ok(dentistas);
-
-        }catch (Exception ex){
-            return StatusCode(500, "An error has been occurred: " + ex);
-        }
-
-    }
-
     [HttpPost]
     [Route("addDentist")]
     [ProducesResponseType(200)]
@@ -38,13 +22,14 @@ public class DentistController : ControllerBase{
     public async Task<IActionResult> addDentist([FromBody] DentistDto newDentist){
 
         try{
-            if(newDentist == null){
+            if(newDentist == null)
                 return  StatusCode(400, "The messague cannot be empty or null");
-            }
 
-            if(_dentistService.usernameDentistExist(newDentist.dentistUser) || _dentistService .emailDentistExist(newDentist.dentistEmail)){
-                return BadRequest("El nombre de usuario o el correo electrónico ya están en uso.");
-            }
+            if(_dentistService.validateExistence("Dentist", "dentistUser", newDentist.dentistUser))
+                return BadRequest("El nombre de usuario ya se encuentra en uso.");
+
+            if(_dentistService.validateExistence("Dentist", "dentistEmail", newDentist.dentistEmail))
+                return BadRequest("El email ingresado ya ha sido registrado.");
 
             await _dentistService.addDentist(newDentist);
             return Ok("Dentist has been added succesfully " + newDentist);
@@ -79,25 +64,32 @@ public class DentistController : ControllerBase{
     [ProducesResponseType(400)]
     [ProducesResponseType(500)]
     public async Task<IActionResult> createPatient([FromBody] PatientDTO newPatient){
-
         try{
-            if(newPatient == null){
+            if(newPatient == null)
                 return  StatusCode(400, "The messague cannot be empty or null");
-            }
-
-            // if(_dentistService.usernameDentistExist(newDentist.dentistUser) || _dentistService .emailDentistExist(newDentist.dentistEmail)){
-            //     return BadRequest("El nombre de usuario o el correo electrónico ya están en uso.");
-            // }
 
             await _dentistService.createPatient(newPatient);
-            return Ok("Patient has been created succesfully " + newPatient);
+            return Ok("El paciente ha sido creado correctamente " + newPatient);
 
         }catch (Exception ex){
             return StatusCode(500, "An unexpected error has been ocurred: " + ex);
         }
     }
 
-    
+    [HttpGet]
+    [Route("getAllPatients")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(500)]
+    public async Task<IActionResult> getAllPatients(){
+        try{
+            var patients = await _dentistService.getAllPatients();
+            return Ok(patients);
+
+        }catch (Exception ex){
+            return StatusCode(500, "An error has been occurred: " + ex);
+        }
+
+    }
 
     // [HttpDelete]
     // [Route("deleteDentist")]
@@ -105,7 +97,5 @@ public class DentistController : ControllerBase{
     //     _dentistService.deleteDentist(dentistId);
     //     return Ok("Dentist has been deleted successfully");
     // }
-
-
     
 }

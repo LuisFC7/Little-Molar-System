@@ -3,49 +3,33 @@ using LittleMolarApi.Interfaces;
 using LittleMolarApi.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using LittleMolarApi.Utilities;
 
 namespace LittleMolarApi.Services;
 
 public class DentistService : IDentist{
 
     private readonly ApplicationDbContext _context;
+    private readonly UtilitiesServices _auxServices;
 
-    public DentistService(ApplicationDbContext context){
+    public DentistService(ApplicationDbContext context, UtilitiesServices auxServices){
         _context = context;
+        _auxServices = auxServices;
     }
-
-    public async Task<List<Dentist>> getAllDentist(){
-        try{
-           return await _context.Dentist.ToListAsync();
-        }
-        catch (Exception ex){
-            throw ex;
-        }
-    }
-
-    // public void addDentist(DentistDto newDentistDto){
-
-    //     var newDentist = new Dentist(
-    //         newDentistDto.dentistName,
-    //         newDentistDto.dentistLastName,
-    //         newDentistDto.dentistUser,
-    //         newDentistDto.dentistPassword,
-    //         newDentistDto.dentistEmail,
-    //         newDentistDto.dentistAge,
-    //         newDentistDto.dentistId,
-    //         newDentistDto.dentistPhone
-    //     );
-    //     _context.Dentist.Add(newDentist);
-    //     _context.SaveChanges();
-    // }
+   
 
     public async Task addDentist(DentistDto newDentistDto){
+
+        string securePass = _auxServices.hashPassword(newDentistDto.dentistPassword);
+        Console.WriteLine(newDentistDto.dentistPassword);
+        Console.WriteLine(securePass);
+
 
         var newDentist = new Dentist(
             newDentistDto.dentistName,
             newDentistDto.dentistLastName,
             newDentistDto.dentistUser,
-            newDentistDto.dentistPassword,
+            securePass,
             newDentistDto.dentistEmail,
             newDentistDto.dentistAge,
             newDentistDto.dentistId,
@@ -101,38 +85,18 @@ public class DentistService : IDentist{
         await _context.SaveChangesAsync();
     }
 
-
-    //Methods for knowing if the user or email have been registered
-    public bool usernameDentistExist(string username){
-        return _context.Dentist.Any(u => u.dentistUser == username);
+    public async Task<List<Patient>> getAllPatients(){
+        try{
+           return await _context.Patient.ToListAsync();
+        }
+        catch (Exception ex){
+            throw ex;
+        }
+    }
+    public bool validateExistence(string table, string field, string check){
+        return _auxServices.fieldExist(table, field, check);
     }
 
-    public bool emailDentistExist(string email){
-        return _context.Dentist.Any(u => u.dentistEmail == email);
-    }
-
-
-
-
-
-
-
-    // public void updateDentist(Dentist dentist){
-
-    //     var identify = _dentist.FirstOrDefault(i => i.id == dentist.id);
-    //     if(identify != null){
-    //         identify.dentistName = dentist.dentistName;
-    //         identify.dentistLastName = dentist.dentistLastName;
-    //         identify.dentistUser = dentist.dentistUser;
-    //         identify.dentistPassword = dentist.dentistPassword;
-    //         identify.dentistEmail = dentist.dentistEmail;
-    //         identify.dentistAge = dentist.dentistAge;
-    //         identify.dentistId = dentist.dentistId;
-    //         identify.dentistPhone = dentist.dentistPhone;
-    //     }else{
-    //         throw new InvalidOperationException($"Dentist not found.");
-    //     }
-    // }
 
     //    public void deleteDentist(int dentistId){
 
