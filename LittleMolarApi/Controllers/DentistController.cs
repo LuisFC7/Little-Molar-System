@@ -91,6 +91,24 @@ public class DentistController : ControllerBase{
 
     }
 
+    [HttpPost]
+    [Route("dentistLogin")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(400)]
+    [ProducesResponseType(500)]
+    public async Task<IActionResult> dentistLogin([FromBody] LoginDto loginDto){
+        try{
+            if(loginDto == null)
+                return  StatusCode(400, "The messague cannot be empty or null");
+
+            await _dentistService.createPatient(newPatient);
+            return Ok("El paciente ha sido creado correctamente " + newPatient);
+
+        }catch (Exception ex){
+            return StatusCode(500, "An unexpected error has been ocurred: " + ex);
+        }
+    }
+
     // [HttpDelete]
     // [Route("deleteDentist")]
     // public IActionResult deleteDentist([FromQuery] int dentistId){
