@@ -21,7 +21,7 @@ USE `littlemolardb`;
 
 -- Volcando estructura para tabla littlemolardb.clinicalhistory
 CREATE TABLE IF NOT EXISTS `clinicalhistory` (
-  `id` smallint NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL DEFAULT '0',
   `patientId` smallint NOT NULL DEFAULT '0',
   `patientIllness` text NOT NULL,
   PRIMARY KEY (`id`),
@@ -34,37 +34,43 @@ DELETE FROM `clinicalhistory`;
 
 -- Volcando estructura para tabla littlemolardb.dentist
 CREATE TABLE IF NOT EXISTS `dentist` (
-  `id` tinyint NOT NULL DEFAULT '0',
+  `id` tinyint NOT NULL AUTO_INCREMENT,
   `dentistName` varchar(50) NOT NULL DEFAULT '0',
   `dentistLastName` varchar(50) NOT NULL DEFAULT '0',
   `dentistUser` varchar(50) NOT NULL DEFAULT '0',
-  `dentistPassword` varchar(50) NOT NULL DEFAULT '0',
+  `dentistPassword` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
   `dentistEmail` varchar(50) NOT NULL DEFAULT '0',
   `dentistAge` tinyint NOT NULL DEFAULT '0',
   `dentistId` varchar(50) NOT NULL DEFAULT '0',
   `dentistPhone` varchar(50) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Volcando datos para la tabla littlemolardb.dentist: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla littlemolardb.dentist: ~4 rows (aproximadamente)
 DELETE FROM `dentist`;
 INSERT INTO `dentist` (`id`, `dentistName`, `dentistLastName`, `dentistUser`, `dentistPassword`, `dentistEmail`, `dentistAge`, `dentistId`, `dentistPhone`) VALUES
-	(0, 'User', 'LastName', 'userdentist', 'userdentist', 'user@user.com', 29, '929292921', '55-22-33-22');
+	(1, 'Pablo', 'Arquimedes', 'pabloarquimedes1', 'Pabloarquimedes1&', 'pabloarquimedes1@gmail.com', 45, '29567890', '3344556677'),
+	(2, 'Gonzalo', 'Martinez', 'gonzaMarti1', 'gonzaMarti1&', 'gonzamarti1@gmail.com', 29, '928746', '5590876342'),
+	(3, 'Luis', 'Castro', 'luiscastro1', 'Luiscastro1&', 'luiscastro1@gmail.com', 24, '345678', '1234567890'),
+	(4, 'Prueba', 'Hash', 'pruebahash1', 'dd4663abb263344bbf56008df660dffcc8772a6aba434a071c02b6d1809092ea', 'pruebahash1@gmail.com', 41, '12345678', '4400998877');
 
 -- Volcando estructura para tabla littlemolardb.patient
 CREATE TABLE IF NOT EXISTS `patient` (
   `id` smallint NOT NULL AUTO_INCREMENT,
   `patientName` varchar(50) NOT NULL DEFAULT '0',
   `patientLastName` varchar(50) NOT NULL DEFAULT '0',
+  `patientAge` tinyint NOT NULL DEFAULT '0',
   `patientPhone` varchar(50) NOT NULL DEFAULT '0',
   `dentistId` tinyint NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK__dentist` (`dentistId`),
   CONSTRAINT `FK__dentist` FOREIGN KEY (`dentistId`) REFERENCES `dentist` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Volcando datos para la tabla littlemolardb.patient: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla littlemolardb.patient: ~1 rows (aproximadamente)
 DELETE FROM `patient`;
+INSERT INTO `patient` (`id`, `patientName`, `patientLastName`, `patientAge`, `patientPhone`, `dentistId`) VALUES
+	(1, 'Paciente', 'Prueba', 34, '5588990077', 1);
 
 -- Volcando estructura para tabla littlemolardb.receipt
 CREATE TABLE IF NOT EXISTS `receipt` (
