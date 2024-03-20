@@ -18,6 +18,7 @@ public interface IDentist{
     bool validateExistence(string table, string field, string username);
 
 
+
     // Update data Dentist using idk
 
     // void deleteDentist(int dentistId);

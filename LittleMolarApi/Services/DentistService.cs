@@ -93,6 +93,7 @@ public class DentistService : IDentist{
             throw ex;
         }
     }
+    
     public bool validateExistence(string table, string field, string check){
         return _auxServices.fieldExist(table, field, check);
     }

@@ -3,11 +3,13 @@ using LittleMolarApi.Services;
 using LittleMolarApi.Utilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+
 
 var builder = WebApplication.CreateBuilder(args);
-
-
-
 
 // Settings for DbContext
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -18,6 +20,32 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddScoped<ApplicationDbContext>();
 builder.Services.AddScoped<IDentist, DentistService>();
 builder.Services.AddScoped<UtilitiesServices>();
+// builder.Services.AddScoped<ISessionImp, SessionService>();
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["JwtSecret"])),
+            ValidateIssuer = false,
+            ValidateAudience = false
+        };
+    });
+
+// Configuración de autorización
+builder.Services.AddAuthorization();
+
+
+builder.Services.AddScoped<ISessionImp>(provider =>
+{
+        var configuration = provider.GetRequiredService<IConfiguration>(); // Obtener la configuración
+        var jwtSecret = configuration["JwtSecret"]; // Obtener el secreto JWT desde la configuración
+        var context = provider.GetRequiredService<ApplicationDbContext>();
+        var tokenService = new TokenService(jwtSecret);
+        return new SessionService(context, jwtSecret, tokenService);
+});
 
 // Add services to the container.
 
@@ -46,6 +74,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseAuthentication();
 
 app.MapControllers();
 
