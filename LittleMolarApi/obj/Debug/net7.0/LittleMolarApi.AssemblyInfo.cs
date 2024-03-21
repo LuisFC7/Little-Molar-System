@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("LittleMolarApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+902a23cb9ffed7ce54062972239c7bfd09613032")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ac4ebca135125d505baca072c7c257669461d668")]
 [assembly: System.Reflection.AssemblyProductAttribute("LittleMolarApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LittleMolarApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

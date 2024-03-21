@@ -7,6 +7,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,9 +19,19 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseMySQL(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
+// builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
+// {
+//     options.SignIn.RequireConfirmedAccount = true;
+// })
+// .AddEntityFrameworkStores<ApplicationDbContext>();
+
+
+
 builder.Services.AddScoped<ApplicationDbContext>();
 builder.Services.AddScoped<IDentist, DentistService>();
 builder.Services.AddScoped<UtilitiesServices>();
+
+
 // builder.Services.AddScoped<ISessionImp, SessionService>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -44,7 +56,14 @@ builder.Services.AddScoped<ISessionImp>(provider =>
         var jwtSecret = configuration["JwtSecret"]; // Obtener el secreto JWT desde la configuración
         var context = provider.GetRequiredService<ApplicationDbContext>();
         var tokenService = new TokenService(jwtSecret);
-        return new SessionService(context, jwtSecret, tokenService);
+        return new SessionService(context, tokenService, configuration);
+});
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.ForwardDefaultSelector = CTX =>{
+        return CTX.Request.Path.StartsWithSegments("/api")? JwtBearerDefaults.AuthenticationScheme : null;
+    };
 });
 
 // Add services to the container.
@@ -55,12 +74,13 @@ builder.Services.AddTransient<IDentist, DentistService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Your API", Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Litle Molar API", Version = "v1" });
 });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
@@ -73,9 +93,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
-
 app.UseAuthentication();
+
+app.UseAuthorization();
 
 app.MapControllers();
 

@@ -18,6 +18,7 @@ public class DentistController : ControllerBase{
     private readonly ISessionImp _sessionImp;
 
 
+
     public DentistController(IDentist dentistService, ISessionImp sessionImp){
         _dentistService = dentistService;
         _sessionImp = sessionImp;
@@ -131,7 +132,10 @@ public class DentistController : ControllerBase{
                 return BadRequest("Algo salio mal");
             }
             Console.WriteLine("Data LogIn: "+ id +" / "+ token);
-            return Ok("Inicio de sesión exitoso " + loginDto);
+            var response = new { Id = id, Token = token };
+        
+            return Ok(response);
+            // return Ok("Inicio de sesión exitoso " + loginDto);
 
         }catch (Exception ex){
             return StatusCode(500, "An unexpected error has been ocurred: " + ex);
@@ -139,41 +143,55 @@ public class DentistController : ControllerBase{
     }
 
 
-    [HttpPost("LogOut")]
-    [Authorize]
-    public IActionResult Logout(){
-        var jwt = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
-        Console.WriteLine("JWT: "+jwt);
-        
-        if (!string.IsNullOrEmpty(jwt))
-        {
-            Console.WriteLine("JWT: "+jwt);
-            _sessionImp.logOut(jwt);
-            // Aquí podrías agregar alguna lógica adicional, como redireccionar al usuario a la página de login si lo deseas
-            return Ok("Logout exitoso.");
-        }
-
-        return BadRequest("No se proporcionó un token JWT en el encabezado de autorización.");
-    }
     // [HttpPost("LogOut")]
     // [Authorize]
-    // public IActionResult Logout(string token)
-    // {
-    //     var jwt = HttpContext.User?.FindFirstValue("jwt");
-
+    // public IActionResult Logout(){
+    //     var jwt = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+    //     Console.WriteLine("JWT: "+jwt);
+        
     //     if (!string.IsNullOrEmpty(jwt))
     //     {
+    //         Console.WriteLine("JWT: "+jwt);
     //         _sessionImp.logOut(jwt);
-    //         // return RedirectToAction("Login");
+    //         // Aquí podrías agregar alguna lógica adicional, como redireccionar al usuario a la página de login si lo deseas
+    //         return Ok("Logout exitoso.");
     //     }
 
-    //     return BadRequest("No se pudo encontrar el token JWT del usuario.");
+    //     return BadRequest("No se proporcionó un token JWT en el encabezado de autorización.");
     // }
-    // [HttpPost("LogOut")]
+    [HttpPost]
+    [Route("dentistLogOut")]
+    [Authorize]
+    public async Task<IActionResult> Logout([FromBody] string token)
+    {
+        var jwt = HttpContext.User?.FindFirstValue("jwt");
+
+        if (!string.IsNullOrEmpty(jwt))
+        {
+            _sessionImp.logOut(jwt);
+            // return RedirectToAction("Login");
+        }
+
+        return BadRequest("No se pudo encontrar el token JWT del usuario.");
+    }
+
+    
+    // [HttpPost]
+    // [Route("dentistLogOut")]
+    // [ProducesResponseType(200)]
+    // [ProducesResponseType(400)]
+    // [ProducesResponseType(500)]
     // [Authorize]
     // public IActionResult Logout(string token){
-    //     _sessionImp.logOut(token);
-    //     return Ok(new { Message = "Sesión cerrada exitosamente." });
+    //     try
+    //     {
+    //         _sessionImp.logOut(token);
+    //         return Ok(new { Message = "Sesión cerrada exitosamente." });
+    //     }
+    //     catch (Exception ex)
+    //     {
+    //         return StatusCode(500, new { Message = "Se produjo un error al cerrar sesión.", Error = ex.Message });
+    //     }
     // }
 
     // [HttpDelete]
@@ -182,6 +200,8 @@ public class DentistController : ControllerBase{
     //     _dentistService.deleteDentist(dentistId);
     //     return Ok("Dentist has been deleted successfully");
     // }
+
+
 
 
 }

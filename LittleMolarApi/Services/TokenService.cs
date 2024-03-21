@@ -1,4 +1,5 @@
 
+using System.Drawing;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -12,6 +13,7 @@ public class TokenService{
 
     public TokenService(string jwtSecret){
         _jwtSecret = jwtSecret;
+        _validTokens = new List<string>();
     }
 
     public ClaimsPrincipal validateToken(string token){
@@ -40,6 +42,20 @@ public class TokenService{
         if(userClaim != null){
             var jwt = userClaim.FindFirstValue("jwt");
             _validTokens.Remove(jwt);
+        }
+    }
+
+    public async Task<bool> invalidateTokenAsync(string token){
+        try{
+            if(_validTokens.Contains(token)){
+                _validTokens.Remove(token);
+                return true;
+            }else{
+                return false;
+            }
+        }catch(Exception ex){
+            Console.WriteLine("Error invalidating token: " + ex.Message);
+            return false;
         }
     }
 

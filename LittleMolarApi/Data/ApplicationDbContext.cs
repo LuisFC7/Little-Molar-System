@@ -1,8 +1,10 @@
 using LittleMolarApi.DTO;
 using LittleMolarApi.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-public class ApplicationDbContext : DbContext{
+public class ApplicationDbContext : DbContext {
     public DbSet<Dentist> Dentist {get; set;}
     public DbSet<Patient> Patient {get; set;}
     public DbSet<Receipt> Receipts {get; set;}
@@ -11,6 +13,7 @@ public class ApplicationDbContext : DbContext{
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) :base(options){
 
     }
+
     
 }
 

@@ -1,3 +1,4 @@
+using System.Configuration;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -17,10 +18,11 @@ public class SessionService : ISessionImp{
     private readonly TokenService _tokenService;
     private readonly string _jwtSecret;
 
-    public SessionService(ApplicationDbContext context, string jwtSecret, TokenService tokenService){
+    public SessionService(ApplicationDbContext context, TokenService tokenService, IConfiguration configuration){
         _context = context;
-        _jwtSecret = jwtSecret;
+        // _jwtSecret = jwtSecret;
         _tokenService = tokenService;
+        _jwtSecret =  configuration["JwtSecret"];
     }
 
 
@@ -68,7 +70,7 @@ public class SessionService : ISessionImp{
                     new Claim(ClaimTypes.Name, user.id.ToString())
                     // Aquí puedes agregar más reclamaciones según necesites
                 }),
-                Expires = DateTime.UtcNow.AddMinutes(1), // Tiempo de expiración del token
+                Expires = DateTime.UtcNow.AddMinutes(15), // Tiempo de expiración del token
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 
@@ -102,8 +104,9 @@ public class SessionService : ISessionImp{
     }
 
     public void logOut(string user){
-        var data = _tokenService.validateToken(user);
-        _tokenService.invalidateToken(data);
+        // var data = _tokenService.validateToken(user);
+        // _tokenService.invalidateToken(data);
+        _tokenService.invalidateTokenAsync(user);
     }
 
 }
