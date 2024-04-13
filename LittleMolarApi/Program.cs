@@ -1,12 +1,14 @@
+using System.Text;
 using LittleMolarApi.Interfaces;
 using LittleMolarApi.Services;
 using LittleMolarApi.Utilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+
 
 var builder = WebApplication.CreateBuilder(args);
-
-
 
 
 // Settings for DbContext
@@ -18,8 +20,12 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddScoped<ApplicationDbContext>();
 builder.Services.AddScoped<IDentist, DentistService>();
 builder.Services.AddScoped<UtilitiesServices>();
+builder.Services.AddScoped<SessionService>();
 
-// Add services to the container.
+// Configuración para JWT Token
+builder.Services.AddSingleton<JwtService>();
+
+builder.Services.AddAuthorization();
 
 builder.Services.AddControllers();
 builder.Services.AddTransient<IDentist, DentistService>();

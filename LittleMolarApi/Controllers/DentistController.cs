@@ -101,8 +101,8 @@ public class DentistController : ControllerBase{
             if(loginDto == null)
                 return  StatusCode(400, "The messague cannot be empty or null");
 
-            await _dentistService.createPatient(newPatient);
-            return Ok("El paciente ha sido creado correctamente " + newPatient);
+            var token = await _dentistService.loginDentist(loginDto);
+            return Ok("Token has been generated " + token);
 
         }catch (Exception ex){
             return StatusCode(500, "An unexpected error has been ocurred: " + ex);

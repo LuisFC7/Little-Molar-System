@@ -1,30 +1,42 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Security.Cryptography;
+using System.Text;
+using LittleMolarApi.DTO;
 using LittleMolarApi.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Org.BouncyCastle.Security;
 
 public class SessionService : ISessionImp{
 
     private readonly ApplicationDbContext _context;
 
-    public SessionService(ApplicationDbContext context){
+    private readonly JwtService _jwtService;
+
+    public SessionService(ApplicationDbContext context, JwtService jwtService){
         _context = context;
+        _jwtService = jwtService;
+
     }
 
-    public async Task<bool> authenticateAsync(string username, string password){
+    public async Task<string> authenticateAsync(string username, string password){
         var user = await _context.Dentist.FirstOrDefaultAsync(u => u.dentistUser == username || u.dentistEmail == username);
-        if(user == null)
-            return false;
-
-        if(!verifyPassword(user.dentistPassword, password)){
-            return false;
+        if(user == null){
+            Console.WriteLine("Entro aqui en  user null");
+            Console.WriteLine(user);
+            return null;
         }
 
-        return true;
+        if(!verifyPassword(password, user.dentistPassword)){
+            Console.WriteLine("Entro aqui en passwordnull");
+            return null;
+        }
 
-        throw new NotImplementedException();
+        var token = _jwtService.generateToken(user.dentistId);
 
+        return token;
 
     }
 
@@ -44,4 +56,5 @@ public class SessionService : ISessionImp{
 
         return true;
     }
+
 }

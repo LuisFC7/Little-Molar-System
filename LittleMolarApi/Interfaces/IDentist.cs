@@ -17,6 +17,8 @@ public interface IDentist{
 
     bool validateExistence(string table, string field, string username);
 
+    Task<string> loginDentist(LoginDto dentist);
+
 
     // Update data Dentist using idk
 

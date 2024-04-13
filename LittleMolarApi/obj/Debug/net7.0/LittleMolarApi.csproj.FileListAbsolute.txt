@@ -171,3 +171,6 @@ C:\Users\lafloresc\Documents\WebProject\Little-Molar-System\LittleMolarApi\obj\D
 C:\Users\lafloresc\Documents\WebProject\Little-Molar-System\LittleMolarApi\obj\Debug\net7.0\LittleMolarApi.pdb
 C:\Users\lafloresc\Documents\WebProject\Little-Molar-System\LittleMolarApi\obj\Debug\net7.0\LittleMolarApi.genruntimeconfig.cache
 C:\Users\lafloresc\Documents\WebProject\Little-Molar-System\LittleMolarApi\obj\Debug\net7.0\ref\LittleMolarApi.dll
+C:\Users\Lenovo\Documents\Little-Molar-System\LittleMolarApi\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\Lenovo\Documents\Little-Molar-System\LittleMolarApi\bin\Debug\net7.0\Microsoft.IdentityModel.Tokens.Saml.dll
+C:\Users\Lenovo\Documents\Little-Molar-System\LittleMolarApi\bin\Debug\net7.0\Microsoft.IdentityModel.Xml.dll

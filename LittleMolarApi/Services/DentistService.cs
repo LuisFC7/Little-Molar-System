@@ -12,9 +12,13 @@ public class DentistService : IDentist{
     private readonly ApplicationDbContext _context;
     private readonly UtilitiesServices _auxServices;
 
-    public DentistService(ApplicationDbContext context, UtilitiesServices auxServices){
+    private readonly SessionService _sessionService;
+    
+
+    public DentistService(ApplicationDbContext context, UtilitiesServices auxServices, SessionService sessionService){
         _context = context;
         _auxServices = auxServices;
+        _sessionService = sessionService;
     }
    
 
@@ -95,6 +99,20 @@ public class DentistService : IDentist{
     }
     public bool validateExistence(string table, string field, string check){
         return _auxServices.fieldExist(table, field, check);
+    }
+
+    public async Task<string> loginDentist(LoginDto dentist){
+        if(dentist == null)
+            throw new NotImplementedException();
+
+        var token = await _sessionService.authenticateAsync(dentist.identifier, dentist.password);
+
+        if (token == null)
+            Console.WriteLine("Autenticación fallida");
+        else
+            Console.WriteLine("Autenticación exitosa. Token: " + token);
+
+        return token;
     }
 
 
