@@ -20,6 +20,7 @@ public interface IDentist{
     Task<string> loginDentist(LoginDto dentist);
 
 
+
     // Update data Dentist using idk
 
     // void deleteDentist(int dentistId);

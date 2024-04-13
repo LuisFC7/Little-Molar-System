@@ -2,6 +2,11 @@ using Microsoft.AspNetCore.Mvc;
 using LittleMolarApi.Interfaces;
 using LittleMolarApi.Models;
 using LittleMolarApi.DTO;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
+using LittleMolarApi.Services;
+using Microsoft.Identity.Client;
+using Microsoft.AspNetCore.Identity;
 
 namespace LittleMolarApi.Controllers;
 
@@ -10,8 +15,13 @@ namespace LittleMolarApi.Controllers;
 public class DentistController : ControllerBase{
 
     private readonly IDentist _dentistService;
-    public DentistController(IDentist dentistService){
+    private readonly ISessionImp _sessionImp;
+
+
+
+    public DentistController(IDentist dentistService, ISessionImp sessionImp){
         _dentistService = dentistService;
+        _sessionImp = sessionImp;
     }
 
     [HttpPost]
@@ -101,13 +111,93 @@ public class DentistController : ControllerBase{
             if(loginDto == null)
                 return  StatusCode(400, "The messague cannot be empty or null");
 
+<<<<<<< HEAD
             var token = await _dentistService.loginDentist(loginDto);
             return Ok("Token has been generated " + token);
+=======
+            var result = await _sessionImp.authenticateAsync(loginDto.identifier, loginDto.password);
+
+            if(result == "El usuario o email es erroneo")
+                return BadRequest("El usuario o email es erroneo");
+
+            if(result == "La contraseña es erronea")
+                return BadRequest("La contraseña es erronea");
+
+            if(result == null)
+                return BadRequest("Algo salio mal");
+
+            string[] content = result.Split('/');
+            string id="";
+            string token="";
+            if(content.Length >= 2){
+                id = content[0];
+                token = content[1];
+            }else{
+                return BadRequest("Algo salio mal");
+            }
+            Console.WriteLine("Data LogIn: "+ id +" / "+ token);
+            var response = new { Id = id, Token = token };
+        
+            return Ok(response);
+            // return Ok("Inicio de sesión exitoso " + loginDto);
+>>>>>>> 50267a9a48adbcf5776542b4e0dabb6d7bd9f507
 
         }catch (Exception ex){
             return StatusCode(500, "An unexpected error has been ocurred: " + ex);
         }
     }
+
+
+    // [HttpPost("LogOut")]
+    // [Authorize]
+    // public IActionResult Logout(){
+    //     var jwt = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+    //     Console.WriteLine("JWT: "+jwt);
+        
+    //     if (!string.IsNullOrEmpty(jwt))
+    //     {
+    //         Console.WriteLine("JWT: "+jwt);
+    //         _sessionImp.logOut(jwt);
+    //         // Aquí podrías agregar alguna lógica adicional, como redireccionar al usuario a la página de login si lo deseas
+    //         return Ok("Logout exitoso.");
+    //     }
+
+    //     return BadRequest("No se proporcionó un token JWT en el encabezado de autorización.");
+    // }
+    [HttpPost]
+    [Route("dentistLogOut")]
+    [Authorize]
+    public async Task<IActionResult> Logout([FromBody] string token)
+    {
+        var jwt = HttpContext.User?.FindFirstValue("jwt");
+
+        if (!string.IsNullOrEmpty(jwt))
+        {
+            _sessionImp.logOut(jwt);
+            // return RedirectToAction("Login");
+        }
+
+        return BadRequest("No se pudo encontrar el token JWT del usuario.");
+    }
+
+    
+    // [HttpPost]
+    // [Route("dentistLogOut")]
+    // [ProducesResponseType(200)]
+    // [ProducesResponseType(400)]
+    // [ProducesResponseType(500)]
+    // [Authorize]
+    // public IActionResult Logout(string token){
+    //     try
+    //     {
+    //         _sessionImp.logOut(token);
+    //         return Ok(new { Message = "Sesión cerrada exitosamente." });
+    //     }
+    //     catch (Exception ex)
+    //     {
+    //         return StatusCode(500, new { Message = "Se produjo un error al cerrar sesión.", Error = ex.Message });
+    //     }
+    // }
 
     // [HttpDelete]
     // [Route("deleteDentist")]
@@ -115,5 +205,8 @@ public class DentistController : ControllerBase{
     //     _dentistService.deleteDentist(dentistId);
     //     return Ok("Dentist has been deleted successfully");
     // }
-    
+
+
+
+
 }

@@ -171,6 +171,16 @@ C:\Users\lafloresc\Documents\WebProject\Little-Molar-System\LittleMolarApi\obj\D
 C:\Users\lafloresc\Documents\WebProject\Little-Molar-System\LittleMolarApi\obj\Debug\net7.0\LittleMolarApi.pdb
 C:\Users\lafloresc\Documents\WebProject\Little-Molar-System\LittleMolarApi\obj\Debug\net7.0\LittleMolarApi.genruntimeconfig.cache
 C:\Users\lafloresc\Documents\WebProject\Little-Molar-System\LittleMolarApi\obj\Debug\net7.0\ref\LittleMolarApi.dll
+<<<<<<< HEAD
 C:\Users\Lenovo\Documents\Little-Molar-System\LittleMolarApi\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Users\Lenovo\Documents\Little-Molar-System\LittleMolarApi\bin\Debug\net7.0\Microsoft.IdentityModel.Tokens.Saml.dll
 C:\Users\Lenovo\Documents\Little-Molar-System\LittleMolarApi\bin\Debug\net7.0\Microsoft.IdentityModel.Xml.dll
+=======
+C:\Users\lafloresc\Documents\WebProject\Little-Molar-System\LittleMolarApi\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\lafloresc\Documents\WebProject\Little-Molar-System\LittleMolarApi\bin\Debug\net7.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+C:\Users\lafloresc\Documents\WebProject\Little-Molar-System\LittleMolarApi\bin\Debug\net7.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+C:\Users\lafloresc\Documents\WebProject\Little-Molar-System\LittleMolarApi\bin\Debug\net7.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+C:\Users\lafloresc\Documents\WebProject\Little-Molar-System\LittleMolarApi\bin\Debug\net7.0\Microsoft.Extensions.Identity.Core.dll
+C:\Users\lafloresc\Documents\WebProject\Little-Molar-System\LittleMolarApi\bin\Debug\net7.0\Microsoft.Extensions.Identity.Stores.dll
+C:\Users\lafloresc\Documents\WebProject\Little-Molar-System\LittleMolarApi\bin\Debug\net7.0\Microsoft.Extensions.Options.dll
+>>>>>>> 50267a9a48adbcf5776542b4e0dabb6d7bd9f507
