@@ -1,8 +1,6 @@
-using LittleMolarApi.DTO;
 using LittleMolarApi.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+// using Microsoft.EntityFrameworkCore;
 
 public class ApplicationDbContext : DbContext {
     public DbSet<Dentist> Dentist {get; set;}
