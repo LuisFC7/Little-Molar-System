@@ -49,7 +49,7 @@
         </div>
   
         <div>
-          <button type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Entrar</button>
+          <button id="buttonEntrar" type="submit" onclick="login()" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Entrar</button>
         </div>
       </form>
   
@@ -60,24 +60,48 @@
     </div>
 </div>
 
+
 <script>
-    function emailValidation() {
-        var inputEmail = document.getElementById("email") as HTMLInputElement;
-        var email = inputEmail.value;
-        var mensaje = document.getElementById("mensaje");
 
-        // Expresión regular para validar un correo electrónico
-        var regex = /^[a-zA-Z0-9._%+-]+@(?:gmail|yahoo|hotmail|outlook)\.(?:com|es|net|org)$/;
+  document.getElementById("buttonEntrar").onclick = function(){
+    login();
+  }
 
-        // Verificar si el correo electrónico cumple con la expresión regular
-        if (regex.test(email)) {
-            mensaje.textContent = "Correo electrónico válido";
-            mensaje.classList.remove("text-red-500");
-            mensaje.classList.add("text-green-500");
+ function login() {
+    // Obtener los valores de email y contraseña
+    var emailInput = document.getElementById('email') as HTMLInputElement;
+    var passwordInput = document.getElementById('password') as HTMLInputElement;
+
+    // Obtener el valor de email y contraseña
+    var email = emailInput.value;
+    var password = passwordInput.value;
+
+    // Realizar la solicitud a tu API
+    fetch('http://localhost:5080/api/Dentist/dentistLogin', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            email: email,
+            password: password
+        })
+    })
+    .then(response => {
+        // Manejar la respuesta de la API
+        if (response.ok) {
+            // Si la solicitud fue exitosa, redireccionar o mostrar un mensaje de éxito
+            alert('Inicio de sesión exitoso');
+            // window.location.href = 'pagina-de-exito.html'; // Redireccionar a una página de éxito
         } else {
-            mensaje.textContent = "Correo electrónico inválido";
-            mensaje.classList.remove("text-green-500");
-            mensaje.classList.add("text-red-500");
+            // Si hubo un error, mostrar un mensaje de error
+            alert('Error al iniciar sesión');
         }
-    }
+    })
+    .catch(error => {
+        // Capturar y manejar errores de red u otros errores
+        console.error('Error:', error);
+        alert('Error de conexión');
+    });
+}
 </script>
