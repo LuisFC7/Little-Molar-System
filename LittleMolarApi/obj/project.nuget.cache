@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "wdI+6JoB6J474Jrbp+wP0mSi5OgemyjuHeu++IjR/hsedDj0f1JO4cUbJE7KlnMghrpncgR5Bk6KLCE2VmiNTg==",
+  "dgSpecHash": "r55Q/if0cB1hkzgaYkoeu3SbPeCGayArnAMy6EdsIjrzkX4qlJv8Jn0Lax53eTa3YEc9eWMKwYulW+Z8T/r8ww==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Lenovo\\Documents\\Example\\Little-Molar-System\\LittleMolarApi\\LittleMolarApi.csproj",
+  "projectFilePath": "C:\\Users\\Lenovo\\Documents\\APIFCxpedient\\Little-Molar-System\\LittleMolarApi\\LittleMolarApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Lenovo\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",

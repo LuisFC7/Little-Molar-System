@@ -22,8 +22,6 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 // })
 // .AddEntityFrameworkStores<ApplicationDbContext>();
 
-
-
 builder.Services.AddScoped<ApplicationDbContext>();
 builder.Services.AddScoped<IDentist, DentistService>();
 builder.Services.AddScoped<ISessionImp, SessionService>();
@@ -63,6 +61,14 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+//Configuracion del CORS
+app.UseCors(options =>
+{
+    options.AllowAnyOrigin()
+           .AllowAnyHeader()
+           .AllowAnyMethod();
+});
 
 app.MapControllers();
 

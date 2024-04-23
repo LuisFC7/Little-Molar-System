@@ -4284,11 +4284,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Lenovo\\Documents\\Example\\Little-Molar-System\\LittleMolarApi\\LittleMolarApi.csproj",
+      "projectUniqueName": "C:\\Users\\Lenovo\\Documents\\APIFCxpedient\\Little-Molar-System\\LittleMolarApi\\LittleMolarApi.csproj",
       "projectName": "LittleMolarApi",
-      "projectPath": "C:\\Users\\Lenovo\\Documents\\Example\\Little-Molar-System\\LittleMolarApi\\LittleMolarApi.csproj",
+      "projectPath": "C:\\Users\\Lenovo\\Documents\\APIFCxpedient\\Little-Molar-System\\LittleMolarApi\\LittleMolarApi.csproj",
       "packagesPath": "C:\\Users\\Lenovo\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Lenovo\\Documents\\Example\\Little-Molar-System\\LittleMolarApi\\obj\\",
+      "outputPath": "C:\\Users\\Lenovo\\Documents\\APIFCxpedient\\Little-Molar-System\\LittleMolarApi\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
