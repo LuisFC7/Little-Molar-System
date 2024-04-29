@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using LittleMolarApi.Interfaces;
 using LittleMolarApi.Models;
 using LittleMolarApi.DTO;
+using LittleMolarApi.DTO.ResponsesDTO;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using LittleMolarApi.Services;
@@ -103,19 +104,29 @@ public class DentistController : ControllerBase{
 
     [HttpPost]
     [Route("dentistLogin")]
-    [ProducesResponseType(200)]
-    [ProducesResponseType(400)]
-    [ProducesResponseType(500)]
+    [ProducesResponseType(typeof(LoginResponseDTO), 200)]
+    [ProducesResponseType(typeof(ErrorResponseDTO), 400)]
+    [ProducesResponseType(typeof(ErrorResponseDTO), 500)]
+    // [ProducesResponseType(200)]
+    // [ProducesResponseType(400)]
+    // [ProducesResponseType(500)]
     public async Task<IActionResult> dentistLogin([FromBody] LoginDto loginDto){
         try{
             if(loginDto == null)
-                return  StatusCode(400, "The messague cannot be empty or null");
+                return BadRequest(new ErrorResponseDTO{Message = "The message cannot be empty or null"});
+
+                // return  StatusCode(400, "The messague cannot be empty or null");
 
             var token = await _dentistService.loginDentist(loginDto);
-            return Ok("Token has been generated " + token);
+            return Ok(new LoginResponseDTO{ message = "Login Success", token = token});
+            // return Ok(new { token });
 
         }catch (Exception ex){
-            return StatusCode(500, "An unexpected error has been ocurred: " + ex);
+            return StatusCode(500, new ErrorResponseDTO{
+                Error = "An unexpected error has been ocurred: " + ex.Message
+            });
+
+            // return StatusCode(500, new { error = "An unexpected error has occurred: " + ex.Message });
         }
     }
  
@@ -126,8 +137,5 @@ public class DentistController : ControllerBase{
     //     _dentistService.deleteDentist(dentistId);
     //     return Ok("Dentist has been deleted successfully");
     // }
-
-
-
 
 }
