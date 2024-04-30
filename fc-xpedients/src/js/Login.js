@@ -4,8 +4,10 @@ document.getElementById("buttonEntrar").onclick = function(){
 
 function login() {
 
-  var emailInput = document.getElementById('email') as HTMLInputElement;
-  var passwordInput = document.getElementById('password') as HTMLInputElement;
+  var emailInput = document.getElementById('email');
+  var passwordInput = document.getElementById('password');
+//   var emailInput = document.getElementById('email') as HTMLInputElement;
+//   var passwordInput = document.getElementById('password') as HTMLInputElement;
 
   var identifier = emailInput.value;
   var password = passwordInput.value;
