@@ -101,15 +101,15 @@ public class DentistController : ControllerBase{
         }
 
     }
+    // [ProducesResponseType(200)]
+    // [ProducesResponseType(400)]
+    // [ProducesResponseType(500)]
 
     [HttpPost]
     [Route("dentistLogin")]
     [ProducesResponseType(typeof(LoginResponseDTO), 200)]
     [ProducesResponseType(typeof(ErrorResponseDTO), 400)]
     [ProducesResponseType(typeof(ErrorResponseDTO), 500)]
-    // [ProducesResponseType(200)]
-    // [ProducesResponseType(400)]
-    // [ProducesResponseType(500)]
     public async Task<IActionResult> dentistLogin([FromBody] LoginDto loginDto){
         try{
             if(loginDto == null)
@@ -118,6 +118,10 @@ public class DentistController : ControllerBase{
                 // return  StatusCode(400, "The messague cannot be empty or null");
 
             var token = await _dentistService.loginDentist(loginDto);
+
+            if(token == null)
+                return BadRequest(new ErrorResponseDTO{Message = "Usuario o password incorrecto"});
+
             return Ok(new LoginResponseDTO{ message = "Login Success", token = token});
             // return Ok(new { token });
 

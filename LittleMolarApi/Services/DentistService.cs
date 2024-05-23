@@ -109,10 +109,9 @@ public class DentistService : IDentist{
         var token = await _sessionService.authenticateAsync(dentist.identifier, dentist.password);
 
         if (token == null)
-            Console.WriteLine("Autenticación fallida");
-        else
-            Console.WriteLine("Autenticación exitosa. Token: " + token);
-
+            return null;
+        
+        Console.WriteLine("Autenticación exitosa. Token: " + token);
         return token;
     }
 
