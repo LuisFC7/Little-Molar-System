@@ -1,0 +1,11 @@
+{
+  "dentistName": "PruebaD",
+  "dentistLastName": "LastNameD",
+"dentistEmail":"pruebad12@gmail.com",
+
+  "dentistUser": "PruebaDU",
+  "dentistPassword": "PruebaLast1&",
+  "dentistAge": 25,
+  "dentistId": 12345678,
+  "dentistPhone": "5566778899"
+}

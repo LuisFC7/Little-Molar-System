@@ -30,7 +30,6 @@ CREATE TABLE IF NOT EXISTS `clinicalhistory` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Volcando datos para la tabla littlemolardb.clinicalhistory: ~0 rows (aproximadamente)
-DELETE FROM `clinicalhistory`;
 
 -- Volcando estructura para tabla littlemolardb.dentist
 CREATE TABLE IF NOT EXISTS `dentist` (
@@ -43,16 +42,20 @@ CREATE TABLE IF NOT EXISTS `dentist` (
   `dentistAge` tinyint NOT NULL DEFAULT '0',
   `dentistId` varchar(50) NOT NULL DEFAULT '0',
   `dentistPhone` varchar(50) NOT NULL DEFAULT '0',
+  `dentistImage` varchar(50) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Volcando datos para la tabla littlemolardb.dentist: ~4 rows (aproximadamente)
-DELETE FROM `dentist`;
-INSERT INTO `dentist` (`id`, `dentistName`, `dentistLastName`, `dentistUser`, `dentistPassword`, `dentistEmail`, `dentistAge`, `dentistId`, `dentistPhone`) VALUES
-	(1, 'Pablo', 'Arquimedes', 'pabloarquimedes1', 'Pabloarquimedes1&', 'pabloarquimedes1@gmail.com', 45, '29567890', '3344556677'),
-	(2, 'Gonzalo', 'Martinez', 'gonzaMarti1', 'gonzaMarti1&', 'gonzamarti1@gmail.com', 29, '928746', '5590876342'),
-	(3, 'Luis', 'Castro', 'luiscastro1', 'Luiscastro1&', 'luiscastro1@gmail.com', 24, '345678', '1234567890'),
-	(4, 'Prueba', 'Hash', 'pruebahash1', 'dd4663abb263344bbf56008df660dffcc8772a6aba434a071c02b6d1809092ea', 'pruebahash1@gmail.com', 41, '12345678', '4400998877');
+-- Volcando datos para la tabla littlemolardb.dentist: ~8 rows (aproximadamente)
+INSERT IGNORE INTO `dentist` (`id`, `dentistName`, `dentistLastName`, `dentistUser`, `dentistPassword`, `dentistEmail`, `dentistAge`, `dentistId`, `dentistPhone`, `dentistImage`) VALUES
+	(1, 'Pablo', 'Arquimedes', 'pabloarquimedes1', 'Pabloarquimedes1&', 'pabloarquimedes1@gmail.com', 45, '29567890', '3344556677', '0'),
+	(2, 'Gonzalo', 'Martinez', 'gonzaMarti1', 'gonzaMarti1&', 'gonzamarti1@gmail.com', 29, '928746', '5590876342', '0'),
+	(3, 'Luis', 'Castro', 'luiscastro1', 'Luiscastro1&', 'luiscastro1@gmail.com', 24, '345678', '1234567890', '0'),
+	(4, 'Prueba', 'Hash', 'pruebahash1', 'dd4663abb263344bbf56008df660dffcc8772a6aba434a071c02b6d1809092ea', 'pruebahash1@gmail.com', 41, '12345678', '4400998877', '0'),
+	(5, 'User', 'UserLast', 'Userlast1', 'UserLast1&', 'userlast1@gmail.com', 34, '123456', '12213123123123', '0'),
+	(6, 'Dentista', 'Muelas', 'Dentista1', 'Upnh0Xt/g+S4fCA0uTiRf4Dys9B/2Cf+f03r+3AkBXOoEp49', 'dentista1@gmail.com', 24, '54321234', '9087654332', '0'),
+	(7, 'Prueba', 'PruebaLastName', 'Prueba11', 'eOV1Cha/KB9klNz7ZGqjkdsQAT2Aqtt4sXqOHfZPXtpePIoL', 'prueba1@gmail.com', 45, '90876544', '5500998877', '0'),
+	(8, 'PruebaD', 'LastNameD', 'PruebaDU', 'WllozzVwJ53RCez47LE8xCWHjl+1Pt/LnTcVmqNL+YDvmAwN', 'pruebad12@gmail.com', 25, '12345678', '5566778899', '0');
 
 -- Volcando estructura para tabla littlemolardb.patient
 CREATE TABLE IF NOT EXISTS `patient` (
@@ -67,9 +70,8 @@ CREATE TABLE IF NOT EXISTS `patient` (
   CONSTRAINT `FK__dentist` FOREIGN KEY (`dentistId`) REFERENCES `dentist` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Volcando datos para la tabla littlemolardb.patient: ~1 rows (aproximadamente)
-DELETE FROM `patient`;
-INSERT INTO `patient` (`id`, `patientName`, `patientLastName`, `patientAge`, `patientPhone`, `dentistId`) VALUES
+-- Volcando datos para la tabla littlemolardb.patient: ~0 rows (aproximadamente)
+INSERT IGNORE INTO `patient` (`id`, `patientName`, `patientLastName`, `patientAge`, `patientPhone`, `dentistId`) VALUES
 	(1, 'Paciente', 'Prueba', 34, '5588990077', 1);
 
 -- Volcando estructura para tabla littlemolardb.receipt
@@ -87,7 +89,6 @@ CREATE TABLE IF NOT EXISTS `receipt` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Volcando datos para la tabla littlemolardb.receipt: ~0 rows (aproximadamente)
-DELETE FROM `receipt`;
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
