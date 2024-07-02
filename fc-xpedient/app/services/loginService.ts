@@ -1,3 +1,5 @@
+import { getDentistSideBarInfo } from "./dentistServices"
+
 export interface LoginResponse {
     token: string;
     message: string;
@@ -19,9 +21,15 @@ export async function login(identifier: string, password: string): Promise<Login
         });
 
         if (response.ok) {
-            return await response.json() as LoginResponse;
+
+            //Canbios agregados
+            const loginResponse = await response.json() as LoginResponse;
+            document.cookie = `token=${loginResponse.token}; path=/; secure`;
+            // return await response.json() as LoginResponse;
+            // const dentistInfo = await getDentistSideBarInfo();
+            return loginResponse;
         } else {
-            if(response.statusText=== "Bad Request")
+            if(response.statusText === "Bad Request")
                 throw new Error('Inicio de sesión incorrecto, usuario o contraseña incorrecto');
             throw new Error('Inicio de sesión incorrecto: ' + response.statusText);
         }

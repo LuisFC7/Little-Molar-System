@@ -1,13 +1,16 @@
 "use client";
 
 import { useState, FormEvent } from 'react';
-import { login, LoginResponse } from '../../services/loginService'; // Ajusta la ruta de importación según tu estructura de proyecto
+import { login, LoginResponse } from '../../services/loginService'; 
+import router, { useRouter } from 'next/router';
 
 export default function Login() {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [loginData, setLoginData] = useState<LoginResponse | null>(null);
+
+
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -17,6 +20,7 @@ export default function Login() {
       const data = await login(email, password);
       setLoginData(data);
       console.log('Inicio de sesión exitoso:', data);
+      router.push('../MainDentist');
       
     } catch (error) {
       if (error instanceof Error) {
