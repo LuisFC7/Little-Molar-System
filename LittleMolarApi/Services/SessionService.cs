@@ -38,7 +38,9 @@ public class SessionService : ISessionImp{
         }
 
         var token = _jwtService.generateToken(user.id);
-        _jwtService.DecodeJwt(token);
+        // _jwtService.DecodeJwt(token);
+        // Console.WriteLine("PRUEBA DE RETURN ID DESDE TOKEN");
+        // _jwtService.GetUserIdFromToken(token);
 
         return token;
 

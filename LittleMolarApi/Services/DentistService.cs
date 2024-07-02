@@ -37,7 +37,8 @@ public class DentistService : IDentist{
             newDentistDto.dentistEmail,
             newDentistDto.dentistAge,
             newDentistDto.dentistId,
-            newDentistDto.dentistPhone
+            newDentistDto.dentistPhone,
+            newDentistDto.dentistImage
         );
         _context.Dentist.Add(newDentist);
         await _context.SaveChangesAsync();
@@ -72,6 +73,32 @@ public class DentistService : IDentist{
             throw new InvalidOperationException("El correo electronico o usuario actualizado ya se encuentra registrado.");
         
     }
+
+    public async Task<DentistSideBarDTO> getSideBarDentist(int id){
+        if(id == 0)
+            throw new NotImplementedException();
+
+        var dentistData = await _context.Dentist
+            .Where(d => d.dentistId == 8)
+            .Select(d => new DentistSideBarDTO{
+                id = d.dentistId,
+                dentistUser =  d.dentistUser,
+                dentistName = d.dentistName,
+                dentistLastName = d.dentistLastName,
+                dentistImage = d.dentistImage
+            })
+            .FirstOrDefaultAsync();
+
+        Console.WriteLine("HERE");
+        Console.WriteLine(dentistData);
+
+        if (dentistData == null)
+            throw new Exception("Dentist not found");
+            
+        return dentistData;
+        
+    }
+    
     public async Task createPatient(PatientDTO patient){
         if(patient==null)
             throw new NotImplementedException();
@@ -97,6 +124,8 @@ public class DentistService : IDentist{
             throw ex;
         }
     }
+
+    
     
     public bool validateExistence(string table, string field, string check){
         return _auxServices.fieldExist(table, field, check);
@@ -115,6 +144,7 @@ public class DentistService : IDentist{
         return token;
     }
 
+   
 
     //    public void deleteDentist(int dentistId){
 

@@ -22,62 +22,7 @@ public class JwtService
         _configuration = configuration;
     }
 
-    // public string generateToken(int userId){
-
-    //     var randomBytes = new byte[32]; // 128 bits
-    //     var rng = RandomNumberGenerator.Create();
-    //     rng.GetBytes(randomBytes);
-    //     var secretKey = Convert.ToBase64String(randomBytes);
-
-    //     var tokenHandler = new JwtSecurityTokenHandler();
-    //     var key = Encoding.ASCII.GetBytes(secretKey);
-
-    //     var tokenDescriptor = new SecurityTokenDescriptor
-    //     {
-    //         Subject = new ClaimsIdentity(new[]
-    //         {
-    //             new Claim(ClaimTypes.Name, userId.ToString())
-    //         }),
-    //         Expires = DateTime.UtcNow.AddMinutes(2),
-    //         Issuer = _issuer,
-    //         Audience = _audience,
-    //         SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-    //     };
-
-    //     var token = tokenHandler.CreateToken(tokenDescriptor);
-    //     return tokenHandler.WriteToken(token);
-    // }
-
-    //PREFUNCIONAL
-    // public string generateToken(int userId)
-    // {
-    //     var randomBytes = new byte[32]; // 256 bits
-    //     using (var rng = RandomNumberGenerator.Create())
-    //     {
-    //         rng.GetBytes(randomBytes);
-    //     }
-    //     var secretKey = Convert.ToBase64String(randomBytes);
-
-    //     var tokenHandler = new JwtSecurityTokenHandler();
-    //     var keyBytes = Convert.FromBase64String(secretKey);
-
-    //     var tokenDescriptor = new SecurityTokenDescriptor
-    //     {
-    //         Subject = new ClaimsIdentity(new[]
-    //         {
-    //             new Claim(ClaimTypes.NameIdentifier, userId.ToString())
-    //         }),
-    //         Expires = DateTime.UtcNow.AddMinutes(2), // Token válido por una hora
-    //         Issuer = _issuer,
-    //         Audience = _audience,
-    //         SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(keyBytes), SecurityAlgorithms.HmacSha256Signature)
-    //     };
-
-    //     Console.WriteLine("Comprobación de ID: " + userId);
-    //     var token = tokenHandler.CreateToken(tokenDescriptor);
-    //     return tokenHandler.WriteToken(token);
-    // }
-
+    
     public string generateToken(int userId)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
@@ -104,9 +49,10 @@ public class JwtService
 
     //DECODIFICADOR JWT
 
-    public void DecodeJwt(string jwtToken){
+    public int DecodeJwt(string jwtToken){
         var tokenHandler = new JwtSecurityTokenHandler();
         var jwtTokenObj = tokenHandler.ReadJwtToken(jwtToken);
+        int numberId = 0;
 
         Console.WriteLine("Header:");
         foreach (var (key, value) in jwtTokenObj.Header)
@@ -117,8 +63,18 @@ public class JwtService
         Console.WriteLine("\nPayload:");
         foreach (var (key, value) in jwtTokenObj.Payload)
         {
+            if(key == "nameid"){
+                if (int.TryParse(value.ToString(), out int parsedValue))
+                    numberId = parsedValue;
+                else
+                    Console.WriteLine("Failed to parse nameid as an integer.");
+        
+            }
             Console.WriteLine($"{key}: {value}");
         }
+        Console.WriteLine("DECODE INFO");
+        Console.WriteLine(numberId);
+        return numberId;
     }
 
     //EXTRACTOR DE INFORMACION

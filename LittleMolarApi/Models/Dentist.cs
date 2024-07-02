@@ -28,6 +28,7 @@ public class Dentist{
     [Required(ErrorMessage ="La cedula es obligatoria")]
     public int dentistId { get; set; }
     public string dentistPhone { get; set; }
+    public string dentistImage { get; set; }
 
     public Dentist (
         
@@ -38,7 +39,8 @@ public class Dentist{
         string dentistEmail,
         int dentistAge,
         int dentistId,
-        string dentistPhone)
+        string dentistPhone,
+        string dentistImage)
     {
      
         this.dentistName = dentistName;
@@ -49,6 +51,7 @@ public class Dentist{
         this.dentistAge = dentistAge;
         this.dentistId = dentistId;
         this.dentistPhone = dentistPhone;
+        this.dentistImage = dentistImage;
     }
 
 

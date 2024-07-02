@@ -24,4 +24,5 @@ public class DentistDto{
     [Required(ErrorMessage ="La cedula es obligatoria")]
     public int dentistId { get; set; }
     public string dentistPhone { get; set; }
+    public string dentistImage { get; set; }
 }

@@ -18,6 +18,7 @@ public interface IDentist{
     bool validateExistence(string table, string field, string username);
 
     Task<string> loginDentist(LoginDto dentist);
+    Task<DentistSideBarDTO> getSideBarDentist(int id);
 
 
 

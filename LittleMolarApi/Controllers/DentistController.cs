@@ -17,12 +17,14 @@ public class DentistController : ControllerBase{
 
     private readonly IDentist _dentistService;
     private readonly ISessionImp _sessionImp;
+    private readonly JwtService _jwtService;
 
 
 
-    public DentistController(IDentist dentistService, ISessionImp sessionImp){
+    public DentistController(IDentist dentistService, ISessionImp sessionImp, JwtService jwtService){
         _dentistService = dentistService;
         _sessionImp = sessionImp;
+        _jwtService = jwtService;
     }
 
     [HttpPost]
@@ -125,6 +127,35 @@ public class DentistController : ControllerBase{
             return Ok(new LoginResponseDTO{ message = "Login Success", token = token});
             // return Ok(new { token });
 
+        }catch (Exception ex){
+            return StatusCode(500, new ErrorResponseDTO{
+                Error = "An unexpected error has been ocurred: " + ex.Message
+            });
+
+            // return StatusCode(500, new { error = "An unexpected error has occurred: " + ex.Message });
+        }
+    }
+
+    [HttpPost]
+    [Route("dentistSideBar")]
+    [ProducesResponseType(typeof(LoginResponseDTO), 200)]
+    [ProducesResponseType(typeof(ErrorResponseDTO), 400)]
+    [ProducesResponseType(typeof(ErrorResponseDTO), 500)]
+    public async Task<IActionResult> dentistSideBar([FromBody] string token){
+        try{
+            if(token == null)
+                return BadRequest(new ErrorResponseDTO{Message = "No se ha proporcionado el token."});
+
+            //DecodificarR el token
+            var numberId = _jwtService.DecodeJwt(token);
+            var dentistData = await _dentistService.getSideBarDentist(numberId);
+
+            if (dentistData == null)
+                return NotFound(new ErrorResponseDTO { Message = "Dentista no encontrado." });
+            Console.WriteLine("POSIBLE FALLA");
+            Console.WriteLine(dentistData);
+            return Ok(dentistData);
+            
         }catch (Exception ex){
             return StatusCode(500, new ErrorResponseDTO{
                 Error = "An unexpected error has been ocurred: " + ex.Message
