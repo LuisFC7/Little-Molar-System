@@ -16,7 +16,7 @@
 
 
 -- Volcando estructura de base de datos para littlemolardb
-CREATE DATABASE IF NOT EXISTS `littlemolardb` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+CREATE DATABASE IF NOT EXISTS `littlemolardb` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `littlemolardb`;
 
 -- Volcando estructura para tabla littlemolardb.clinicalhistory
@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `clinicalhistory` (
   PRIMARY KEY (`id`),
   KEY `FK__patient` (`patientId`),
   CONSTRAINT `FK__patient` FOREIGN KEY (`patientId`) REFERENCES `patient` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Volcando datos para la tabla littlemolardb.clinicalhistory: ~0 rows (aproximadamente)
 
@@ -37,14 +37,14 @@ CREATE TABLE IF NOT EXISTS `dentist` (
   `dentistName` varchar(50) NOT NULL DEFAULT '0',
   `dentistLastName` varchar(50) NOT NULL DEFAULT '0',
   `dentistUser` varchar(50) NOT NULL DEFAULT '0',
-  `dentistPassword` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
+  `dentistPassword` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
   `dentistEmail` varchar(50) NOT NULL DEFAULT '0',
   `dentistAge` tinyint NOT NULL DEFAULT '0',
   `dentistId` varchar(50) NOT NULL DEFAULT '0',
   `dentistPhone` varchar(50) NOT NULL DEFAULT '0',
   `dentistImage` varchar(50) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Volcando datos para la tabla littlemolardb.dentist: ~8 rows (aproximadamente)
 INSERT IGNORE INTO `dentist` (`id`, `dentistName`, `dentistLastName`, `dentistUser`, `dentistPassword`, `dentistEmail`, `dentistAge`, `dentistId`, `dentistPhone`, `dentistImage`) VALUES
@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS `patient` (
   PRIMARY KEY (`id`),
   KEY `FK__dentist` (`dentistId`),
   CONSTRAINT `FK__dentist` FOREIGN KEY (`dentistId`) REFERENCES `dentist` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Volcando datos para la tabla littlemolardb.patient: ~0 rows (aproximadamente)
 INSERT IGNORE INTO `patient` (`id`, `patientName`, `patientLastName`, `patientAge`, `patientPhone`, `dentistId`) VALUES
@@ -86,7 +86,7 @@ CREATE TABLE IF NOT EXISTS `receipt` (
   KEY `FK_receipt_dentist` (`dentistId`),
   CONSTRAINT `FK_receipt_dentist` FOREIGN KEY (`dentistId`) REFERENCES `dentist` (`id`),
   CONSTRAINT `FK_receipt_patient` FOREIGN KEY (`patientId`) REFERENCES `patient` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Volcando datos para la tabla littlemolardb.receipt: ~0 rows (aproximadamente)
 
