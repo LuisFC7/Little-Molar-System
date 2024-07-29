@@ -75,11 +75,13 @@ public class DentistService : IDentist{
     }
 
     public async Task<DentistSideBarDTO> getSideBarDentist(int id){
+        Console.WriteLine("FROM GeSide Bar");
+        Console.WriteLine(id);
         if(id == 0)
             throw new NotImplementedException();
 
         var dentistData = await _context.Dentist
-            .Where(d => d.dentistId == 8)
+            .Where(d => d.id == id)
             .Select(d => new DentistSideBarDTO{
                 id = d.dentistId,
                 dentistUser =  d.dentistUser,
